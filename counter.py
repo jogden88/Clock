@@ -1,6 +1,6 @@
 from myhdl import *
 
-def Counter(count, cout, clk, reset, overflow=9):
+def counter(count, cout, clk, reset, overflow=9):
     '''
     count: output - the count
     cout: output - a carry out

@@ -7,7 +7,7 @@ def testBench():
     count, cout, clk, reset = [Signal(intbv(0)) for i in range(4)]
     reset = ResetSignal(0, active=ACTIVE_LOW, async=True)
 
-    counter_1 = Counter(count, cout, clk, reset, 9)
+    counter_1 = counter(count, cout, clk, reset, overflow=9)
 
     HALF_PERIOD = delay(10)
 
