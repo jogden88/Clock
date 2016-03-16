@@ -4,10 +4,10 @@ from counter import *
 ACTIVE_LOW, INACTIVE_HIGH = 0, 1
 
 def testBench():
-    count, cout, clk, reset = [Signal(intbv(0)) for i in range(4)]
+    msb, lsb, cout, clk, reset = [Signal(intbv(0)) for i in range(5)]
     reset = ResetSignal(0, active=ACTIVE_LOW, async=True)
 
-    counter_1 = counter(count, cout, clk, reset, overflow=9)
+    counter_1 = counter(msb, lsb, cout, clk, reset, of_msb=5, of_lsb=9)
 
     HALF_PERIOD = delay(10)
 
@@ -20,7 +20,7 @@ def testBench():
         reset.next = ACTIVE_LOW
         yield clk.negedge
         reset.next = INACTIVE_HIGH
-        yield delay(1000)
+        yield delay(2000)
         raise StopSimulation
 
     @instance
@@ -28,7 +28,7 @@ def testBench():
         print("1 2 3 A HA HA")
         yield reset.posedge
         while 1:
-            print(" %s    %s" % (count, cout))
+            print(" %s%s    %s" % (msb, lsb, cout))
             yield clk.posedge
             yield delay(1)
 

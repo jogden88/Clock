@@ -4,9 +4,11 @@ from clock_divider import *
 def testBench():
     clk_in, clk_out = [Signal(intbv(0)) for i in range(2)]
 
-    clock_div = clockDivider(clk_in, clk_out, division = 2)
+    reset = ResetSignal(1, active = 0, async = True)
 
-    HALF_PERIOD = delay(10)
+    clock_div = clockDivider(clk_in, clk_out, reset, division = 50)
+
+    HALF_PERIOD = delay(1)
 
     @always(HALF_PERIOD)
     def clockGen():

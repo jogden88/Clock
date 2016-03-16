@@ -1,6 +1,12 @@
 # Python files
 *.py~
 __pycache__/
+*#
+.#*
+
+# HDL Files
+*.v
+*.vhd
 
 # Windows image file caches
 Thumbs.db

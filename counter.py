@@ -1,21 +1,29 @@
 from myhdl import *
 
-def counter(count, cout, clk, reset, overflow=9):
+def counter(msb, lsb, cout, clk, reset, of_msb=5, of_lsb=9, base=10):
     '''
-    count: output - the count
-    cout: output - a carry out
+    msb: output - the most significant bit 
+    lsb: output - the least significant bit 
+    cout: output - a carry out when of_msb is reached
     clk: input - tick tock
     reset: input - active low
-    overflow: input - where to overflow for cout
+    of_msb: input - msb overflow 
+    of_lsb: input - lsb overflow 
     ''' 
 
     @always_seq(clk.posedge, reset=reset)
     def countLogic():
-        if (count >= overflow):
-            cout.next = 1;
-            count.next = 0; 
+        # When LSB = BASE there is a logical error causing this to not roll over
+        if ( lsb >= (base - 1) ):
+            cout.next = 0 
+            lsb.next = 0
+            msb.next = msb + 1
+        elif ( (msb >= of_msb) and (lsb >= of_lsb) ):
+            cout.next = 1
+            msb.next = 0
+            lsb.next = 0
         else:
-            cout.next = 0
-            count.next = (count + 1)
+            cout.next = 0 
+            lsb.next = lsb + 1
 
     return countLogic
