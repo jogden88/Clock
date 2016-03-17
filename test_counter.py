@@ -7,7 +7,7 @@ def testBench():
     msb, lsb, cout, clk, reset = [Signal(intbv(0)) for i in range(5)]
     reset = ResetSignal(0, active=ACTIVE_LOW, async=True)
 
-    counter_1 = counter(msb, lsb, cout, clk, reset, of_msb=5, of_lsb=9)
+    counter_1 = counter(msb, lsb, cout, clk, reset, of_msb=2, of_lsb=3)
 
     HALF_PERIOD = delay(10)
 
@@ -20,7 +20,7 @@ def testBench():
         reset.next = ACTIVE_LOW
         yield clk.negedge
         reset.next = INACTIVE_HIGH
-        yield delay(2000)
+        yield delay(3000)
         raise StopSimulation
 
     @instance

@@ -6,7 +6,7 @@ def testBench():
 
     reset = ResetSignal(1, active = 0, async = True)
 
-    clock_div = clockDivider(clk_in, clk_out, reset, division = 50)
+    clock_div = clockDivider(clk_in, clk_out, reset, 1, division = 50)
 
     HALF_PERIOD = delay(1)
 

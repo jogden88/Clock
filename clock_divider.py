@@ -1,6 +1,6 @@
 from myhdl import *
 
-def clockDivider(clk_in, clk_out, reset, division = 1):
+def clockDivider(clk_in, clk_out, reset, stopGo, division = 1):
     '''
     clk_in: input - the input clock of arbitrary frequency
     clk_out: output - output clock of desired frequency
@@ -12,10 +12,14 @@ def clockDivider(clk_in, clk_out, reset, division = 1):
     
     @always_seq(clk_in.posedge, reset=reset)
     def clockDiv():
-        if (div_count >= division-1):
-            clk_out.next = not clk_out
-            div_count.next = 0
+        if (stopGo == 1):
+            clk_out.next = clk_out
         else:
-            div_count.next = div_count + 1
+            if (div_count >= division-1):
+                clk_out.next = not clk_out
+                div_count.next = 0
+            else:
+                div_count.next = div_count + 1
+        
 
     return clockDiv

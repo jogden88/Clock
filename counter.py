@@ -13,15 +13,14 @@ def counter(msb, lsb, cout, clk, reset, of_msb=5, of_lsb=9, base=10):
 
     @always_seq(clk.posedge, reset=reset)
     def countLogic():
-        # When LSB = BASE there is a logical error causing this to not roll over
-        if ( lsb >= (base - 1) ):
-            cout.next = 0 
-            lsb.next = 0
-            msb.next = msb + 1
-        elif ( (msb >= of_msb) and (lsb >= of_lsb) ):
+        if ( (msb >= of_msb) and (lsb >= of_lsb) ):
             cout.next = 1
             msb.next = 0
             lsb.next = 0
+        elif ( lsb >= (base - 1) ):
+            cout.next = 0 
+            lsb.next = 0
+            msb.next = msb + 1
         else:
             cout.next = 0 
             lsb.next = lsb + 1
